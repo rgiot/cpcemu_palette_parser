@@ -1,0 +1,22 @@
+// Grammar for the command line manipulation of Amstrad CPC emulators
+
+command = { memory | breakpoint }
+
+hex_number = { ("$" | "&" | "#" | ^"0x") ~ (HEX_DIGIT+) }
+dec_number = { DECIMAL_NUMBER+ }
+label      = { (ASCII_ALPHANUMERIC | "." | "_")+ }
+
+address = { hex_number | dec_number }
+value   = { hex_number | dec_number }
+
+label_or_address = { label | address }
+label_or_value   = { label | value }
+
+memory              = { (^"mem" ~ "ory"?) ~ SPACE_SEPARATOR ~ memory_action }
+memory_action       = { memory_action_read | memory_action_write }
+memory_action_read  = { "read" ~ SPACE_SEPARATOR ~ label_or_address }
+memory_action_write = { "write" ~ SPACE_SEPARATOR ~ label_or_address ~ SPACE_SEPARATOR ~ label_or_value }
+
+breakpoint            = { (^"breakpoint" | ^"break" | ^"brk") ~ SPACE_SEPARATOR ~ breakpoint_action }
+breakpoint_action     = { breakpoint_action_add }
+breakpoint_action_add = { ^"add" ~ SPACE_SEPARATOR ~ label_or_address }

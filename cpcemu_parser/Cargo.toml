@@ -1,0 +1,25 @@
+[package]
+name = "cpcemu_parser"
+version = "0.1.0"
+edition = "2021"
+description = "Tenative to write an interpreter that could be usefull to interact with ace (or any emulator)"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pest = "2.7.4"
+pest_derive = "2.7.4"
+num-traits = "0.2.17"
+
+[build-dependencies]
+bindgen = "0.68.1"
+cbindgen = "0.26.0"
+
+[lib]
+name = "cpcemu_parser"
+crate-type = ["staticlib"]
+
+[profile.release]
+opt-level = "z" 
+codegen-units = 1
+panic = "abort"
